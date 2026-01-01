@@ -1,0 +1,11 @@
+{
+    "name": "ResourceManager.luau",
+    "tree": {
+        "$className": "DataModel",
+        "ServerScriptService": {
+            "ResourceManager": {
+                "$path": ".."
+            }
+        }
+    }
+}
