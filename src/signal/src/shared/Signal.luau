@@ -6,11 +6,11 @@ A lightweight event primitive for decoupled communication with explicit cleanup.
 type ListenerCallback = (...any) -> ()
 
 type Connection = {
-	Disconnect: (Connection) -> (),
-	_connected: boolean,
-	_callback: ListenerCallback?,
-	_signal: Signal?,
-	_index: number,
+    Disconnect: (Connection) -> (),
+    _connected: boolean,
+    _callback: ListenerCallback?,
+    _signal: Signal?,
+    _index: number,
 }
 
 export type Signal = {
@@ -72,20 +72,19 @@ function Signal:_disconnect(index: number)
 end
 
 function Signal:_compact()
-	local listeners = self._listeners
-	local compacted = table.create(#listeners - self._deadCount)
-	local newIndex = 1
+    local compacted = {}
+    local newIndex = 1
 
-	for _, connection in ipairs(listeners) do
-		if connection and connection._connected then
-			connection._index = newIndex
-			compacted[newIndex] = connection
-			newIndex += 1
-		end
-	end
+    for _, connection in ipairs(self._listeners) do
+        if connection and connection._connected then
+            connection._index = newIndex
+            compacted[newIndex] = connection
+            newIndex += 1
+        end
+    end
 
-	self._listeners = compacted
-	self._deadCount = 0
+    self._listeners = compacted
+    self._deadCount = 0
 end
 
 function Signal:Connect(callback: ListenerCallback): Connection
